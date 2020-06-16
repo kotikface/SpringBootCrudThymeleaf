@@ -1,6 +1,17 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="CssUnknownProperty" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myCustomPropertiesEnabled" value="true" />
+      <option name="myIgnoreVendorSpecificProperties" value="false" />
+      <option name="myCustomPropertiesList">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="webkit-tap-highlight-color" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
     <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <Languages>
         <language minSize="57" name="Java" />
@@ -9,7 +20,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="12">
+          <list size="22">
             <item index="0" class="java.lang.String" itemvalue="th:switch" />
             <item index="1" class="java.lang.String" itemvalue="th:case" />
             <item index="2" class="java.lang.String" itemvalue="th:each" />
@@ -22,6 +33,34 @@
             <item index="9" class="java.lang.String" itemvalue="th:object" />
             <item index="10" class="java.lang.String" itemvalue="th:attr" />
             <item index="11" class="java.lang.String" itemvalue="th:value" />
+            <item index="12" class="java.lang.String" itemvalue="align-self-center" />
+            <item index="13" class="java.lang.String" itemvalue="user" />
+            <item index="14" class="java.lang.String" itemvalue="th:attrappend" />
+            <item index="15" class="java.lang.String" itemvalue="scope" />
+            <item index="16" class="java.lang.String" itemvalue="th:name" />
+            <item index="17" class="java.lang.String" itemvalue="th:data-target" />
+            <item index="18" class="java.lang.String" itemvalue="th:id" />
+            <item index="19" class="java.lang.String" itemvalue="th:selected" />
+            <item index="20" class="java.lang.String" itemvalue="th:active" />
+            <item index="21" class="java.lang.String" itemvalue="active" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="9">
+            <item index="0" class="java.lang.String" itemvalue="nobr" />
+            <item index="1" class="java.lang.String" itemvalue="noembed" />
+            <item index="2" class="java.lang.String" itemvalue="comment" />
+            <item index="3" class="java.lang.String" itemvalue="noscript" />
+            <item index="4" class="java.lang.String" itemvalue="embed" />
+            <item index="5" class="java.lang.String" itemvalue="script" />
+            <item index="6" class="java.lang.String" itemvalue="h3" />
+            <item index="7" class="java.lang.String" itemvalue="th:block" />
+            <item index="8" class="java.lang.String" itemvalue="hr" />
           </list>
         </value>
       </option>

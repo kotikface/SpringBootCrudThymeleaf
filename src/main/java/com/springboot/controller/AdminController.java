@@ -36,6 +36,9 @@ public class AdminController {
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(new Role(1L,"ADMIN"));
         roleSet.add(new Role(2L,"USER"));
+        if (model.getAttribute("userById")==null){
+            model.addAttribute("userById", new User());
+        }
         model.addAttribute("roleSet", roleSet);
         return "select";
     }
@@ -44,21 +47,22 @@ public class AdminController {
     public String insertUser(@ModelAttribute("user") @Valid User user, ModelMap model) throws SQLException {
         userService.addUser(user);
         model.addAttribute("users", userService.getAllUser());
-        return "redirect:select";
+        return "redirect:/admin/select";
     }
 
-    @GetMapping("/update/{id}")
+    @PostMapping("/edit/{id}")
     public String getUserById(@PathVariable("id") long id, ModelMap model) throws SQLException {
         User user =  userService.getUserById(id);
         model.addAttribute("userById", user);
+        model.addAttribute("user1", new User());
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(new Role(1L,"ADMIN"));
         roleSet.add(new Role(2L,"USER"));
         model.addAttribute("roleSet", roleSet);
-        return "update";
+        return  "redirect:/admin/select";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/edit")
     public String updateUser(@ModelAttribute("user") @Valid User user) throws SQLException {
         userService.updateUser(user);
         return "redirect:/admin/select";

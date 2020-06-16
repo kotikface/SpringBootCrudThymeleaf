@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -31,7 +33,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
         User user = (User) authentication.getPrincipal();
         Set<Role> set = user.getRoles();
+        List<User> listUser = new ArrayList<>();
+        listUser.add(user);
+        httpServletRequest.getSession().setAttribute("userInf", listUser);
         httpServletRequest.getSession().setAttribute("userInfo", user);
+        httpServletRequest.getSession().setAttribute("adminRole", new Role("ADMIN"));
+        httpServletRequest.getSession().setAttribute("userRole",new Role("USER"));
         Role role = roleService.getRoleByName("ADMIN");
         if (set.contains(role)){
             httpServletResponse.sendRedirect("/admin/select");

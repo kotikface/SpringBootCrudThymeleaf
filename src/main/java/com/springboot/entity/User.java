@@ -14,7 +14,7 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String password;
-    private int age;
+    private Integer age;
     @ManyToMany(fetch = FetchType.EAGER, cascade= CascadeType.MERGE)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -23,13 +23,13 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, String password, int age) {
+    public User(String name, String password, Integer age) {
         this.name = name;
         this.password = password;
         this.age = age;
     }
 
-    public User(Long id, String name, String password, int age) {
+    public User(Long id, String name, String password, Integer age) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -90,11 +90,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 

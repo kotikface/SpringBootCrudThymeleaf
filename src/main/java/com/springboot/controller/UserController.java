@@ -12,6 +12,6 @@ public class UserController {
 
     @GetMapping
     public String userInfo() {
-        return "user";
+        return "select";
     }
 }
