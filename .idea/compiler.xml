@@ -7,12 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SpringBootApp" />
+        <module name="SpringBootCrudThymeleaf" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="SpringBootApp" options="-parameters" />
+      <module name="SpringBootCrudThymeleaf" options="-parameters" />
     </option>
   </component>
 </project>

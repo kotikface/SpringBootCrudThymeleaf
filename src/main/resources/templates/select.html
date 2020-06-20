@@ -20,7 +20,11 @@
 <body>
 
 <nav class="navbar sticky-top navbar-expand-xs navbar-dark bg-dark">
-    <h6 class="no  pull-left" th:text="'User '+ ${session.userInfo.name} + ' with roles ' + ${session.userInfo.roles}"></h6>
+    <h6 class="no  pull-left">
+        <span   th:text="'User '+ ${session.userInfo.name} + ' with roles '">
+                             </span>
+        <span th:each="inf :${session.userInfo.roles}" th:text="${inf}"></span>
+    </h6>
     <h6>
         <a class="no nav-item nav-link text-secondary  pull-right" href="/logout">Logout</a>
     </h6>
@@ -30,7 +34,8 @@
         <div class="col-md-2 vl">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a th:if="${session.userInfo.roles.contains(session.adminRole)}" class="nav-link active" data-toggle="pill" th:href="'#'+ ADMIN" role="tab" aria-controls="v-pills-home" th:text="Admin" aria-selected="true"></a>
-                <a th:if="${session.userInfo.roles.contains(session.userRole)}" class="nav-link" data-toggle="pill" th:href="'#' + USER" role="tab" aria-controls="v-pills-home" th:text="User" aria-selected="true"></a>
+                <a th:if="${session.userInfo.roles.contains(session.userRole)} and not ${session.userInfo.roles.contains(session.adminRole)}" class="nav-link active" data-toggle="pill" th:href="'#' + USER1" role="tab" aria-controls="v-pills-home" th:text="User" aria-selected="true"></a>
+                <a th:if="${session.userInfo.roles.contains(session.userRole)} and ${session.userInfo.roles.contains(session.adminRole)}" class="nav-link" data-toggle="pill" th:href="'#' + USER" role="tab" aria-controls="v-pills-home" th:text="User" aria-selected="true"></a>
             </div>
         </div>
     <div class="tab-content col-md-10">
@@ -47,11 +52,13 @@
                             <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">age</th>
-                                <th scope="col">roles</th>
-                                <th scope="col">edit</th>
-                                <th scope="col">delete</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Roles</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -59,11 +66,12 @@
                             <tr th:each="userGet : ${users}" scope="row">
                                 <td th:text="${userGet.id}"></td>
                                 <td th:text="${userGet.name}"></td>
+                                <td th:text="${userGet.lastName}"></td>
                                 <td th:text=${userGet.age}></td>
+                                <td th:text="${userGet.email}"></td>
                                 <td>
-                                    <select   size="2"  name="roles">
-                                        <option th:each="role :${userGet.roles}" disabled th:text="${role}"></option>
-                                    </select>
+                                     <span  th:each="roleinf :${userGet.roles}" disabled th:text="${roleinf}">
+                             </span>
                                 </td>
                                 <td>
 
@@ -95,12 +103,20 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <div class="col-md-5 mx-auto">
-                                                                    <label for="name1">Name</label>
+                                                                    <label for="name1">First Name</label>
                                                                     <input class="form-control" type="text" id="name1"
                                                                            th:name="name" th:value="${userGet.name}"
-                                                                           placeholder="Name">
+                                                                           placeholder="First Name">
                                                                 </div>
                                                             </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-5 mx-auto">
+                                                            <label for="name2">Last Name</label>
+                                                            <input class="form-control" type="text" id="name2"
+                                                                   th:name="lastName" th:value="${userGet.lastName}"
+                                                                   placeholder="Last Name">
+                                                        </div>
+                                                    </div>
                                                             <div class="form-group">
                                                                 <div class="col-md-5 mx-auto">
                                                                     <label for="password1">Password</label>
@@ -117,6 +133,14 @@
                                                                            id="age1" placeholder="Age">
                                                                 </div>
                                                             </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-5 mx-auto">
+                                                            <label for="email">Email</label>
+                                                            <input class="form-control" type="text" id="email"
+                                                                   th:name="email" th:value="${userGet.email}"
+                                                                   placeholder="Email">
+                                                        </div>
+                                                    </div>
                                                             <div class="form-group">
                                                                 <div class="col-md-5 mx-auto">
                                                                     <label for="role1">Roles</label>
@@ -155,8 +179,14 @@
                         <form class="form-horizontal" id="form" action="#" th:action="@{select}" th:object="${user1}"  method="post">
                             <div class="form-group">
                                 <div class="col-md-5 mx-auto">
-                                    <label class="mx-auto" for="name">Name</label>
-                                    <input class="form-control" type="text" id="name"  th:field="*{name}" placeholder="Name" >
+                                    <label class="mx-auto" for="name">First Name</label>
+                                    <input class="form-control" type="text" id="name"  th:field="*{name}" placeholder="First Name" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-5 mx-auto">
+                                    <label class="mx-auto" for="nameLast">Last Name</label>
+                                    <input class="form-control" type="text" id="nameLast"  th:field="*{lastName}" placeholder="Last Name" >
                                 </div>
                             </div>
                             <div class="form-group">
@@ -169,6 +199,12 @@
                                 <div class="col-md-5 mx-auto">
                                     <label for="age">Age</label>
                                     <input class="form-control" type="text"  th:field="*{age}" id="age" placeholder="Age">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-5 mx-auto">
+                                    <label class="mx-auto" for="email1">Email</label>
+                                    <input class="form-control" type="text" id="email1"  th:field="*{email}" placeholder="Email" >
                                 </div>
                             </div>
                             <div class="form-group">
@@ -189,16 +225,19 @@
                     </div>
                 </div>
         </div>
-            <div th:if="${session.userInfo.roles.contains(session.userRole)}"   class="tab-pane col-md-10 active " id="USER">
-                <h1>User panel</h1>
+            <div th:if="${session.userInfo.roles.contains(session.userRole)} and ${session.userInfo.roles.contains(session.adminRole)}" class="tab-pane" id="USER">
+                <h1>User information-page</h1>
+                <div class="tab-content border">
                 <table class="table table-striped table-hover">
-                    <h5>About user</h5>
-                    <thead class="thead-light">
+                    <h5 class="px-md-2">About user</h5>
+                    <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">age</th>
-                        <th scope="col">roles</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Roles</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -206,16 +245,51 @@
                     <tr th:each="userinf  :${session.userInf}">
                         <td th:text="${userinf.id}"></td>
                         <td th:text="${userinf.name}"></td>
+                        <td th:text="${userinf.lastName}"></td>
                         <td th:text=${userinf.age}></td>
+                        <td th:text="${userinf.email}"></td>
                         <td>
-                            <select   size="2"  name="roles">
-                                <option th:each="roleinf :${userinf.roles}" disabled th:text="${roleinf}"></option>
-                            </select>
+                             <span  th:each="roleinf :${userinf.roles}" disabled th:text="${roleinf}">
+                             </span>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                </div>
+                </div>
+        <div th:if="${session.userInfo.roles.contains(session.userRole)} and not ${session.userInfo.roles.contains(session.adminRole)}" class="tab-pane col-md-10 active" id="USER1">
+            <h1>User information-page</h1>
+            <div class="tab-content border">
+            <table class="table table-striped table-hover">
+                <h5 class="px-md-2">About user</h5>
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Roles</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <!--   for (Todo todo: todos) {  -->
+                <tr th:each="userinf  :${session.userInf}">
+                    <td th:text="${userinf.id}"></td>
+                    <td th:text="${userinf.name}"></td>
+                    <td th:text="${userinf.lastName}"></td>
+                    <td th:text=${userinf.age}></td>
+                    <td th:text="${userinf.email}"></td>
+                    <td>
+                         <span  th:each="inf :${userinf.roles}" disabled th:text="${inf}">
+                             </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
             </div>
+        </div>
     </div>
 </div>
 </div>
