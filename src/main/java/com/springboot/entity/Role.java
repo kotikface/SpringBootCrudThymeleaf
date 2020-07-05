@@ -1,12 +1,14 @@
 package com.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
-
 @Entity
 @Table(name = "t_roles")
 public class Role implements GrantedAuthority {
@@ -16,7 +18,9 @@ public class Role implements GrantedAuthority {
     private Long id;
     @Column(name = "name")
     private String name;
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.MERGE)
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles", cascade = CascadeType.MERGE)
+    @JsonBackReference
     private Set<User> users;
 
     public Role() {

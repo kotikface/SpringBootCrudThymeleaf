@@ -20,7 +20,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="23">
+          <list size="27">
             <item index="0" class="java.lang.String" itemvalue="th:switch" />
             <item index="1" class="java.lang.String" itemvalue="th:case" />
             <item index="2" class="java.lang.String" itemvalue="th:each" />
@@ -44,6 +44,10 @@
             <item index="20" class="java.lang.String" itemvalue="th:active" />
             <item index="21" class="java.lang.String" itemvalue="active" />
             <item index="22" class="java.lang.String" itemvalue="th:block" />
+            <item index="23" class="java.lang.String" itemvalue="th:inline" />
+            <item index="24" class="java.lang.String" itemvalue="btn-primary" />
+            <item index="25" class="java.lang.String" itemvalue="edit-btn" />
+            <item index="26" class="java.lang.String" itemvalue="th:method" />
           </list>
         </value>
       </option>
