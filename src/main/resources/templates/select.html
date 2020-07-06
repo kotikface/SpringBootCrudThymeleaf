@@ -385,23 +385,100 @@
                 data : JSON.stringify(formData),
                 contentType : 'application/json;charset=UTF-8',
                 dataType: 'json',
-                success: function (data) {
+                success: function (user) {
                     let $users = $('#get-users')
-                    // $users.append('<tr>')
-                    // $users.append('<td>'+ data.id +'</td>')
-                    // $users.append('<td>'+ data.name +'</td>')
-                    // $users.append('<td>'+ data.lastName +'</td>')
-                    // $users.append('<td>'+ data.age +'</td>')
-                    // $users.append('<td>'+ data.email +'</td>')
-                    // let getRoles =''
-                    // for (let role of data.roles) {
-                    //     getRoles = getRoles + ' ' +  role.name;
-                    // }
-                    // $users.append('<td>'+ getRoles + '</td>')
-                    // $users.append('<td> <a type="" href="/edit/' + data.id + '" class="btn btn-primary edit-btn" >Edit</a> </td>')
-                    // $users.append('<td>  <a href="/delete/' + data.id + '" id="deleteButton"  class="btn btn-danger delete-btn">Delete</a></td>')
-                    // $users.append('</tr>')
-                    window.location.replace("/admin/select");
+                        let getRoles = ''
+                        for (let role of user.roles) {
+                            getRoles = getRoles + ' ' + role.name;
+                        }
+                        var tr = '<tr id="tr'+user.id+'"> <td> '+ user.id +'</td><td>' + user.name + '</td><td>' + user.lastName + '</td>' +
+                            '<td>' + user.age + '</td>' +
+                            '<td>' + user.email + '</td>' +
+                            '<td>' + getRoles + '</td>' +
+                            '<td> <a type="" href="/edit/' + user.id + '" class="btn btn-primary edit-btn" >Edit</a> </td>' +
+                            '<td>  <a  href="/edit/' + user.id + '" id="deleteButton"  class="btn btn-danger delete-btn">Delete</a></td></tr>'
+                        $users.append(tr)
+                    $(' .delete-btn').click(function(event) {
+                        event.preventDefault();
+                        let href = $(this).attr('href')
+                        $.ajax({
+                            contentType: 'application/json',
+                            type: 'GET',
+                            url: href,
+                            dataType: 'json',
+                            success: function () {
+                                $.getJSON(this.url, function (user) {
+                                    var select = document.getElementById("role2");
+                                    var length = select.options.length;
+                                    for (i = length-1; i >= 0; i--) {
+                                        select.options[i] = null;
+                                    }
+                                    for (const argument of user.roles) {
+                                        $('#role2').append($('<option selected> </option>').attr('value', argument).text(argument.name))
+                                    }
+                                    $('#id2').val(user.id);
+                                    $('#name3').val(user.name);
+                                    $('#name4').val(user.lastName);
+                                    $('#password2').val(user.password);
+                                    $('#age2').val(user.age);
+                                    $('#email2').val(user.email);
+                                    $('#role2').val(user.roles)
+
+                                })
+                            }
+                        })
+                        $('#deleteModal').modal('show');
+                    })
+                    $(' .edit-btn').click(function(event) {
+                        event.preventDefault();
+                        let href = $(this).attr('href')
+                        $.ajax({
+                            contentType: 'application/json',
+                            type: 'GET',
+                            url: href,
+                            dataType: 'json',
+                            success: function (data) {
+                                var select = document.getElementById("role1");
+                                var length = select.options.length;
+                                for (i = length-1; i >= 0; i--) {
+                                    select.options[i] = null;
+                                }
+                                let getR = data.roles
+                                let rolesId = new Set()
+                                for (let i = 0; i <getR.length ; i++) {
+                                    rolesId.add(getR[i].id)
+                                }
+                                for (const role of rolesId) {
+                                    if (role==1){
+                                        $('#role1').append('<option selected value="1">ADMIN</option>')
+                                    }
+                                    if (role==2){
+                                        $('#role1').append('<option selected value="2">USER</option>')
+                                    }
+                                }
+                                if(!rolesId.has(1)){
+                                    $('#role1').append('<option  value="1">ADMIN</option>')
+                                }
+                                if(!rolesId.has(2)){
+                                    $('#role1').append('<option  value="2">USER</option>')
+                                }
+
+
+                                $.getJSON(this.url, function (user) {
+                                    $('#id1').val(user.id);
+                                    $('#name1').val(user.name);
+                                    $('#name2').val(user.lastName);
+                                    $('#password1').val(user.password);
+                                    $('#age1').val(user.age);
+                                    $('#email1').val(user.email);
+
+                                })
+                                $('#editModal').modal('show');
+                            }
+                        })
+                    })
+
+                    //window.location.replace("/admin/select");
 
                 }
             })
@@ -556,22 +633,18 @@
             contentType : "application/json",
             dataType: 'json',
             success: function (data) {
-                // let users = $('#get-users')
-                // users.append('<tr>')
-                // users.append('<td>'+ data.id +'</td>')
-                // users.append('<td>'+ data.name +'</td>')
-                // users.append('<td>'+ data.lastName +'</td>')
-                // users.append('<td>'+ data.age +'</td>')
-                // users.append('<td>'+ data.email +'</td>')
-                // let getRoles =''
-                // for (let role of data.roles) {
-                //     getRoles = getRoles + ' ' +  role.name;
-                // }
-                // users.append('<td>'+ getRoles + '</td>')
-                // users.append('<td> <a type="" href="/edit/' + data.id + '" class="btn btn-primary edit-btn" >Edit</a> </td>')
-                // users.append('<td>  <a href="/delete/' + data.id + '" id="deleteButton"  class="btn btn-danger delete-btn">Delete</a></td>')
-                // users.append('</tr>')
-                window.location.replace("/admin/select");
+                let users = $('#get-users')
+                $('#tr'+data.id).find( "td:eq( 1 )").text(data.name)
+                $('#tr'+data.id).find( "td:eq( 2 )").text(data.lastName)
+                $('#tr'+data.id).find( "td:eq( 3 )").text(data.age)
+                $('#tr'+data.id).find( "td:eq( 4 )").text(data.email)
+                let textRoles = ''
+                for (const role of data.roles) {
+                    textRoles = textRoles + role.name + ' '
+                }
+                textRoles.trim()
+                $('#tr'+data.id).find( "td:eq( 5 )").text(textRoles)
+
             }
         })
     }
